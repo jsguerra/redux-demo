@@ -1,8 +1,10 @@
 const redux = require("redux");
 const createStore = redux.createStore;
+const bindActionCreators = redux.bindActionCreators;
 
 // Define a string constant which defines the type of the Action
 const CAKE_ORDERED = "CAKE_ORDERED";
+const CAKE_RESTOCKED = "CAKE_RESTOCKED";
 
 // An action creator is a function that returns an object
 function orderCake() {
@@ -10,7 +12,14 @@ function orderCake() {
   // you can add other properties along with type
   return {
     type: CAKE_ORDERED,
-    quantity: 1,
+    payload: 1,
+  };
+}
+
+function restockCake(qty = 1) {
+  return {
+    type: CAKE_RESTOCKED,
+    payload: qty,
   };
 }
 
@@ -26,6 +35,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, // make copy of state object and update certain properties
         numberOfCakes: state.numberOfCakes - 1,
+      };
+    case CAKE_RESTOCKED:
+      return {
+        ...state,
+        numberOfCakes: state.numberOfCakes + action.payload,
       };
     default:
       return state;
@@ -45,9 +59,18 @@ const unsubscribe = store.subscribe(() =>
 );
 
 // Responsiblity 3
-store.dispatch(orderCake());
-store.dispatch(orderCake());
-store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(restockCake(3));
+
+// Alternate way to dispatch by using bindActionCreators
+// This is not necessary
+const actions = bindActionCreators({ orderCake, restockCake }, store.dispatch);
+actions.orderCake();
+actions.orderCake();
+actions.orderCake();
+actions.restockCake(3);
 
 // Responsibility 5
 unsubscribe();
