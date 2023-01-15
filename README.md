@@ -18,3 +18,13 @@ Not allowed to directly update the state object
 __3rd Princle__
 > "To specify how the state tree is updated based on actions, you write pure reducers"
 Reducer - (previousState, action) => newState
+
+## Redux Store
+One store for the entire application
+
+Responsibilites:
+- Holds application state
+- Allows access to state via getState()
+- Allows state to be updated via dispatch(action)
+- Registers listeners via subscribe(listener)
+- Handles unregistering of listeners via the function returned by subscribe(listerner)
