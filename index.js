@@ -2,6 +2,11 @@ const redux = require("redux");
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
 const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
+
+// Middleware
+const reduxLogger = require("redux-logger");
+const logger = reduxLogger.createLogger();
 
 // Define a string constant which defines the type of the Action
 const CAKE_ORDERED = "CAKE_ORDERED";
@@ -128,15 +133,17 @@ const rootReducer = combineReducers({
 // createStore accepts a parameter which is the reducer
 // Responsibility 1
 // const store = createStore(reducer); // single reducer
-const store = createStore(rootReducer); // multiple reducers
+// We add a second parameter to apply middleware
+const store = createStore(rootReducer, applyMiddleware(logger)); // multiple reducers
 
 // Responsibility 2
 console.log("Initial state", store.getState());
 
 // Responsibility 4
-const unsubscribe = store.subscribe(() =>
-  console.log("updated state", store.getState())
-);
+const unsubscribe = store.subscribe(() => {
+  // logger middleware handles the loggin
+  // console.log("updated state", store.getState())
+});
 
 // Responsiblity 3
 // store.dispatch(orderCake());
