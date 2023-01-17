@@ -78,3 +78,6 @@ Requests to an API end point
 **redux-thunk**
 The standard way to define async action creators
 It is a Middleware
+
+## Additional Notes
+Each reducer can response to any action dispatched in the application.
